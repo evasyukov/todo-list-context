@@ -1,9 +1,11 @@
-import { useContext } from "react";
-import { AppContext } from "../../contex";
+import { useContext } from "react"
+import { AppContext } from "../../contex"
+
+import "./SortingTodoList.css"
 
 export function SortingTodoList() {
   const { searchQuery, setSearchQuery, isSorting, setIsSorting } =
-    useContext(AppContext);
+    useContext(AppContext)
 
   return (
     <div className="sorting">
@@ -25,5 +27,5 @@ export function SortingTodoList() {
         />
       </div>
     </div>
-  );
+  )
 }

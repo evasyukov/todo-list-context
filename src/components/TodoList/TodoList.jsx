@@ -1,5 +1,7 @@
-import { useContext } from "react";
-import { AppContext } from "../../contex";
+import { useContext } from "react"
+import { AppContext } from "../../contex"
+
+import "./TodoList.css"
 
 export function TodoList() {
   const {
@@ -13,10 +15,10 @@ export function TodoList() {
     startEditing,
     deleteTodo,
     toggleCompleted,
-  } = useContext(AppContext);
+  } = useContext(AppContext)
 
-  if (isLoading) return <div>Загрузка...</div>;
-  if (errorText) return <div>{errorText}</div>;
+  if (isLoading) return <div>Загрузка...</div>
+  if (errorText) return <div>{errorText}</div>
 
   return (
     <div className="todo-list">
@@ -52,5 +54,5 @@ export function TodoList() {
         </div>
       ))}
     </div>
-  );
+  )
 }

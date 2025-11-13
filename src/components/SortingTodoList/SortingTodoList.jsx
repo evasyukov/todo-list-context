@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { AppContext } from "../../contex"
+import { AppContext } from "../../context"
 
 import "./SortingTodoList.css"
 

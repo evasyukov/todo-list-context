@@ -1,4 +1,4 @@
-import { AppContext } from "./contex"
+import { AppContext } from "./context"
 import { useTodos } from "./hooks"
 import { AdditionForm, SortingTodoList, TodoList } from "./components"
 

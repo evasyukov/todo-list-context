@@ -1,11 +1,11 @@
-import { useContext } from "react"
-import { AppContext } from "../../context"
+import { useSelector, useDispatch } from "react-redux"
+import { setSearchQuery, setIsSorting } from "../../actions/elementAction"
 
 import "./SortingTodoList.css"
 
 export function SortingTodoList() {
-  const { searchQuery, setSearchQuery, isSorting, setIsSorting } =
-    useContext(AppContext)
+  const dispatch = useDispatch()
+  const { searchQuery, isSorting } = useSelector((state) => state.element)
 
   return (
     <div className="sorting">
@@ -14,7 +14,7 @@ export function SortingTodoList() {
         type="text"
         placeholder="Поиск дела"
         value={searchQuery}
-        onChange={(event) => setSearchQuery(event.target.value)}
+        onChange={(event) => dispatch(setSearchQuery(event.target.value))}
       />
 
       <div className="sorting__abc">
@@ -23,7 +23,7 @@ export function SortingTodoList() {
           type="checkbox"
           id="sorting"
           checked={isSorting}
-          onChange={(event) => setIsSorting(event.target.checked)}
+          onChange={(event) => dispatch(setIsSorting(event.target.checked))}
         />
       </div>
     </div>

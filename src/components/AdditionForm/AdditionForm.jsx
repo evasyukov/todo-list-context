@@ -1,17 +1,34 @@
-import { useContext } from "react"
-import { AppContext } from "../../context"
+import { useSelector, useDispatch } from "react-redux"
+import {
+  setTodoText,
+  setValidateText,
+  setIsDisabledSubmit,
+  resetForm,
+} from "../../actions/elementAction"
+import { addTodo } from "../../actions/thunks"
 
 import "./AdditionForm.css"
 
 export function AdditionForm() {
-  const {
-    todoText,
-    handleChange,
-    submitTodos,
-    validateText,
-    isDisabledSubmit,
-  } = useContext(AppContext)
+  const dispatch = useDispatch()
+  const { todoText } = useSelector((state) => state.element)
 
+  const handleChange = (e) => {
+    dispatch(setTodoText(e.target.value))
+    dispatch(setValidateText(null))
+    dispatch(setIsDisabledSubmit(false))
+  }
+
+  const submitTodos = (e) => {
+    e.preventDefault()
+    if (todoText.trim().length < 1) {
+      dispatch(setValidateText("Текст дела не должен быть пустым"))
+      dispatch(setIsDisabledSubmit(true))
+      return
+    }
+    dispatch(addTodo(todoText))
+    dispatch(resetForm())
+  }
   return (
     <form className="add-todo" onSubmit={submitTodos}>
       <textarea
@@ -23,12 +40,14 @@ export function AdditionForm() {
         onInput={handleChange}
       />
 
-      {validateText && <div className="validate-error">{validateText}</div>}
+      {todoText.validateText && (
+        <div className="validate-error">{todoText.validateText}</div>
+      )}
 
       <button
         className="add-todo_button"
         type="submit"
-        disabled={isDisabledSubmit}
+        disabled={todoText.isDisabledSubmit}
       >
         Добавить дело
       </button>

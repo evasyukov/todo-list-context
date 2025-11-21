@@ -1,24 +1,37 @@
-import { useContext } from "react"
-import { AppContext } from "../../context"
+import { useSelector, useDispatch } from "react-redux"
+
+import {
+  setEditingId,
+  setEditingText,
+  saveEditing,
+} from "../../actions/elementAction"
+import { updateTodo, removeTodo } from "../../actions/thunks"
 
 import "./TodoList.css"
 
 export function TodoList() {
-  const {
-    todos,
-    isLoading,
-    errorText,
-    editingId,
-    editingText,
-    handleTitleChange,
-    saveTitle,
-    startEditing,
-    deleteTodo,
-    toggleCompleted,
-  } = useContext(AppContext)
+  const dispatch = useDispatch()
+  const { items: todos, loading, error } = useSelector((state) => state.todos)
+  const { editingId, editingText } = useSelector((state) => state.element)
 
-  if (isLoading) return <div>Загрузка...</div>
-  if (errorText) return <div>{errorText}</div>
+  if (loading) return <div>Загрузка...</div>
+  if (error) return <div>{error}</div>
+
+  const startEditing = (todo) => {
+    dispatch(setEditingId(todo.id))
+    dispatch(setEditingText(todo.title))
+  }
+
+  const saveTitle = (todo) => {
+    if (editingText.trim()) {
+      dispatch(updateTodo(todo.id, { title: editingText }))
+    }
+    dispatch(saveEditing())
+  }
+
+  const toggleCompleted = (todo) => {
+    dispatch(updateTodo(todo.id, { completed: !todo.completed }))
+  }
 
   return (
     <div className="todo-list">
@@ -28,7 +41,9 @@ export function TodoList() {
             {editingId === todo.id ? (
               <input
                 value={editingText}
-                onChange={handleTitleChange}
+                onChange={(event) =>
+                  dispatch(setEditingText(event.target.value))
+                }
                 onBlur={() => saveTitle(todo)}
                 onKeyDown={(e) => e.key === "Enter" && saveTitle(todo)}
                 autoFocus
@@ -48,7 +63,9 @@ export function TodoList() {
 
             <div className="todo__buttons">
               <button onClick={() => startEditing(todo)}>Редактировать</button>
-              <button onClick={() => deleteTodo(todo.id)}>Удалить</button>
+              <button onClick={() => dispatch(removeTodo(todo.id))}>
+                Удалить
+              </button>
             </div>
           </div>
         </div>

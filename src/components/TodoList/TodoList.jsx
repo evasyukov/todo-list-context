@@ -45,7 +45,7 @@ export function TodoList() {
                   dispatch(setEditingText(event.target.value))
                 }
                 onBlur={() => saveTitle(todo)}
-                onKeyDown={(e) => e.key === "Enter" && saveTitle(todo)}
+                onKeyDown={(event) => event.key === "Enter" && saveTitle(todo)}
                 autoFocus
               />
             ) : (

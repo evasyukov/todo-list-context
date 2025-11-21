@@ -13,14 +13,14 @@ export function AdditionForm() {
   const dispatch = useDispatch()
   const { todoText } = useSelector((state) => state.element)
 
-  const handleChange = (e) => {
-    dispatch(setTodoText(e.target.value))
+  const handleChange = (event) => {
+    dispatch(setTodoText(event.target.value))
     dispatch(setValidateText(null))
     dispatch(setIsDisabledSubmit(false))
   }
 
-  const submitTodos = (e) => {
-    e.preventDefault()
+  const submitTodos = (event) => {
+    event.preventDefault()
     if (todoText.trim().length < 1) {
       dispatch(setValidateText("Текст дела не должен быть пустым"))
       dispatch(setIsDisabledSubmit(true))
